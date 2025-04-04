@@ -19,6 +19,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/49636804.js"></script>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
       </body>
