@@ -9,7 +9,6 @@ import React from "react";
 // Builder Public API Key set in .env file
 builder.init(process.env.NEXT_PUBLIC_BUILDER_API_KEY);
 
-// ⏩ Initial placeholder attributes to prevent layout shift
 builder.setUserAttributes({
   company: "unknown",
   pipelineStage: "unknown",
@@ -49,36 +48,36 @@ export default function Page({ params }) {
           pipelineStage,
           jobtitle,
         });
-      } 
-        const hutk = getHubspotUtk();
+      }
 
-        if (hutk) {
-          try {
-            const response = await fetch("/api/hubspot-user", {
-              method: "POST",
-              body: JSON.stringify({ hutk }),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            });
+      const hutk = getHubspotUtk();
 
-            const data = await response.json();
+      if (hutk) {
+        try {
+          const response = await fetch("/api/hubspot-user", {
+            method: "POST",
+            body: JSON.stringify({ hutk }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
 
-            const userAttributes = {
-              company: data?.properties?.company || "unknown",
-              pipelineStage: data?.properties?.hs_pipeline || "unknown",
-              jobtitle: data?.properties?.jobtitle || "unknown",
-            };
+          const data = await response.json();
 
-            // Set user attributes and store them in cookies
-            builder.setUserAttributes(userAttributes);
-            setCookie("company", userAttributes.company);
-            setCookie("pipelineStage", userAttributes.pipelineStage);
-            setCookie("jobtitle", userAttributes.jobtitle);
+          const userAttributes = {
+            company: data?.properties?.company || "unknown",
+            pipelineStage: data?.properties?.hs_pipeline || "unknown",
+            jobtitle: data?.properties?.jobtitle || "unknown",
+          };
 
-          } catch (err) {
-            console.error("Error fetching user data:", err);
-          }
+          // Set user attributes and store them in cookies
+          builder.setUserAttributes(userAttributes);
+          setCookie("company", userAttributes.company);
+          setCookie("pipelineStage", userAttributes.pipelineStage);
+          setCookie("jobtitle", userAttributes.jobtitle);
+        } catch (err) {
+          console.error("Error fetching user data:", err);
+        }
       }
     };
 
