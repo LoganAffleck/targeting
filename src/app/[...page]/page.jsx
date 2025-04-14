@@ -59,9 +59,9 @@ export default function Page({ params }) {
 
           // Set user attributes and store them in cookies
           builder.setUserAttributes(userAttributes);
-          setCookie("company", userAttributes.company);
-          setCookie("pipelineStage", userAttributes.pipelineStage);
-          setCookie("jobtitle", userAttributes.jobtitle);
+          // setCookie("company", userAttributes.company);
+          // setCookie("pipelineStage", userAttributes.pipelineStage);
+          // setCookie("jobtitle", userAttributes.jobtitle);
         } catch (err) {
           console.error("Error fetching user data:", err);
         }
