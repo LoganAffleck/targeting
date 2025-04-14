@@ -4,6 +4,7 @@ import { builder } from "@builder.io/sdk";
 import { RenderBuilderContent } from "../../components/builder";
 import { useEffect, useState } from "react";
 import { getHubspotUtk } from "@/utils/getHubspotUtk";
+import { getCookie, setCookie } from "@/utils/cookies";
 import React from "react";
 
 // Builder Public API Key set in .env file
@@ -15,20 +16,6 @@ builder.setUserAttributes({
   jobtitle: "unknown",
 });
 
-// Helper function to get a cookie by name
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(";").shift();
-  return null;
-};
-
-// Helper function to set a cookie
-const setCookie = (name, value, days = 365) => {
-  const expires = new Date();
-  expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
-  document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
-};
 
 export default function Page({ params }) {
   const unwrappedParams = React.use(params);
@@ -37,18 +24,18 @@ export default function Page({ params }) {
   useEffect(() => {
     const fetchUserAndSetAttributes = async () => {
       // Check if user attributes already exist in cookies
-      const company = getCookie("company");
-      const pipelineStage = getCookie("pipelineStage");
-      const jobtitle = getCookie("jobtitle");
+      // const company = getCookie("company");
+      // const pipelineStage = getCookie("pipelineStage");
+      // const jobtitle = getCookie("jobtitle");
 
-      if (company && pipelineStage && jobtitle) {
-        // If cookies exist, set the user attributes from cookies
-        builder.setUserAttributes({
-          company,
-          pipelineStage,
-          jobtitle,
-        });
-      }
+      // if (company && pipelineStage && jobtitle) {
+      //   // If cookies exist, set the user attributes from cookies
+      //   builder.setUserAttributes({
+      //     company,
+      //     pipelineStage,
+      //     jobtitle,
+      //   });
+      // }
 
       const hutk = getHubspotUtk();
 
@@ -103,7 +90,7 @@ export default function Page({ params }) {
 
   return (
     <>
-      <RenderBuilderContent content={content} model="page" />
+    {content ? <RenderBuilderContent content={content} model="page" /> : <p>Loading...</p>}
     </>
-  );
+  )
 }
